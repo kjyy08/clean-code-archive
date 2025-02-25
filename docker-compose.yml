@@ -1,0 +1,42 @@
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack
+    container_name: your_container_name
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Seoul
+      - APP_URL=http://localhost:6875
+      - APP_KEY=base64:3qjlIoUX4Tw6fUQgZcxMbz6lb8+dAzqpvItqHvahW1c=
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_DATABASE=your_db_name
+      - DB_USERNAME=your_db_account
+      - DB_PASSWORD=your_db_password
+    volumes:
+      - ./bookstack_app_data:/config
+    ports:
+      - 6875:80
+    restart: unless-stopped
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:11.4.4
+    container_name: mariadb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Seoul
+      - MYSQL_ROOT_PASSWORD=mysupersecretrootpassword
+      - MYSQL_DATABASE=your_db_name
+      - MYSQL_USER=your_db_account
+      - MYSQL_PASSWORD=your_db_password
+    volumes:
+      - ./bookstack_db_data:/config
+
+    # These ports are commented out as you don't really need this port
+    # exposed for normal use, mainly only if connecting direct the the
+    # database externally. Otherwise, this risks exposing access to the
+    # database when not needed.
+    # ports:
+    #   - 3306:3306
+    restart: unless-stopped

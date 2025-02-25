@@ -1,0 +1,11 @@
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+# bookstack
+bookstack_app_data
+bookstack_db_data
